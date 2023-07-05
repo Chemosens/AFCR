@@ -1,0 +1,26 @@
+{
+    "id": "F47D6894",
+    "path": "C:/INRA/AFCR/tests/test_probaTinterS.r",
+    "project_path": "tests/test_probaTinterS.r",
+    "type": "r_source",
+    "hash": "2978569310",
+    "contents": "",
+    "dirty": false,
+    "created": 1688475304727.0,
+    "source_on_save": false,
+    "relative_order": 4,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "4,57",
+        "scrollLine": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1688478573,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1688478573220,
+    "read_only": false,
+    "read_only_alternatives": []
+}

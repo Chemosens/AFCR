@@ -1,0 +1,26 @@
+{
+    "id": "488AF63F",
+    "path": "C:/INRA/AFCR/R/keepLastOccurrence.r",
+    "project_path": "R/keepLastOccurrence.r",
+    "type": "r_source",
+    "hash": "2290182142",
+    "contents": "",
+    "dirty": false,
+    "created": 1688475512838.0,
+    "source_on_save": false,
+    "relative_order": 5,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "6,10",
+        "scrollLine": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1688479047,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1688479047755,
+    "read_only": false,
+    "read_only_alternatives": []
+}
