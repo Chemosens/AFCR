@@ -5,6 +5,10 @@
 #' @param descriptorName name of the column containing the subject information
 #' @param timeName name of the column containing the subject information
 #' @export
+#' @examples
+#' data(triangular)
+#' df=keepLastOccurence(triangular,subjectName="Paneliste")
+
 keepLastOccurence=function(x,subjectName="Panéliste",productName="Produit",descriptorName="Descripteur",timeName="Temps")
 {
   subjects=levels(factor(x[,subjectName]))
@@ -26,5 +30,7 @@ keepLastOccurence=function(x,subjectName="Panéliste",productName="Produit",desc
     }
   }
   df[,"Res"]=substr(df[,descriptorName],nchar(as.character(df[,productName]))+2,nchar(as.character(df[,productName]))+3)
-  return(df)
+  res=list(df=df,subjectName=subjectName,productName=productName,descriptorName=descriptorName,timeName=timeName)
+  class(res)="afc"
+  return(res)
 }

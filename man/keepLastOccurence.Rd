@@ -26,3 +26,7 @@ keepLastOccurence(
 \description{
 Returns the dataframe with the last click only. Also indicates the time of the last click, the result (KO or OK, entered in descriptor after an underscore) and the number of clicks
 }
+\examples{
+data(triangular)
+df=keepLastOccurence(triangular,subjectName="Paneliste")
+}

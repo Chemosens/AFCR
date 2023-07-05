@@ -5,15 +5,34 @@
 \title{returns the threshold (=0 if the subject found the right samples for all concentrations, 1 if he/she found the right samples for all concentrations but the lightest one, etc.}
 \usage{
 getThreshold(
-  df,
-  decreasingConcentrations = c("C9", "C8", "C7", "C6", "C5", "C4", "C3", "C2", "C1")
+  res,
+  decreasingConcentrations = c("C9", "C8", "C7", "C6", "C5", "C4", "C3", "C2", "C1"),
+  subjectName = "Panéliste",
+  productName = "Produit",
+  descriptorName = "Descripteur",
+  timeName = "Temps",
+  resName = "Res"
 )
 }
 \arguments{
-\item{df}{result of keepLastOccurrence}
+\item{res}{result of keepLastOccurrence (or dataframe)}
 
 \item{decreasingConcentrations}{vector contaning the products corresponding to the decreasing concentrations}
+
+\item{subjectName}{name of the column containing the subject information}
+
+\item{productName}{name of the column containing the subject information}
+
+\item{descriptorName}{name of the column containing the subject information}
+
+\item{timeName}{name of the column containing the subject information}
 }
 \description{
 returns the threshold (=0 if the subject found the right samples for all concentrations, 1 if he/she found the right samples for all concentrations but the lightest one, etc.
+}
+\examples{
+data(triangular)
+res=keepLastOccurence(triangular,subjectName="Paneliste")
+seuils=getThreshold(res=res,
+decreasingConcentrations=c("C9","C8","C7","C6","C5","C4","C3","C2","C1"))
 }
