@@ -17,7 +17,7 @@ getThreshold=function(res,decreasingConcentrations=c("C9","C8","C7","C6","C5","C
     productName=res$productName
     subjectName=res$subjectName
     descriptorName=res$descriptorName
-    timeName=res$ timeName
+    timeName=res$timeName
     resName="Res"
     df=res$df
   }
@@ -71,5 +71,5 @@ getThreshold=function(res,decreasingConcentrations=c("C9","C8","C7","C6","C5","C
   }
   threshold=length(decreasingConcentrations)-observedThreshold
   dfres=cbind(dfLastSucceed,threshold)
-  return(dfres[,c(subjectName,productName,"nClicks",resName,"threshold")])
+  return(dfres[,c(subjectName,productName,timeName,"nClicks",resName,"threshold")])
 }
