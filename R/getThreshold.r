@@ -1,7 +1,7 @@
 #' returns the threshold (=0 if the subject found the right samples for all concentrations, 1 if he/she found the right samples for all concentrations but the lightest one, etc.
 #' @param df result of keepLastOccurrence
 #' @param decreasingConcentrations vector contaning the products corresponding to the decreasing concentrations
-#'  @export
+#' @export
 getThreshold=function(df,decreasingConcentrations=c("C9","C8","C7","C6","C5","C4","C3","C2","C1"))
 {
   products=levels(factor(df[,"Produit"]))

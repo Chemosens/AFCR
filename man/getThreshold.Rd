@@ -12,8 +12,7 @@ getThreshold(
 \arguments{
 \item{df}{result of keepLastOccurrence}
 
-\item{decreasingConcentrations}{vector contaning the products corresponding to the decreasing concentrations
-@export}
+\item{decreasingConcentrations}{vector contaning the products corresponding to the decreasing concentrations}
 }
 \description{
 returns the threshold (=0 if the subject found the right samples for all concentrations, 1 if he/she found the right samples for all concentrations but the lightest one, etc.
