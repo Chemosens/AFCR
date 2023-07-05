@@ -12,7 +12,8 @@ getThreshold(
   productName = "Produit",
   descriptorName = "Descripteur",
   timeName = "Temps",
-  resName = "Res"
+  resName = "Res",
+  rata = NULL
 )
 }
 \arguments{
@@ -27,6 +28,10 @@ getThreshold(
 \item{descriptorName}{name of the column containing the subject information}
 
 \item{timeName}{name of the column containing the subject information}
+
+\item{resName}{name of the column containing the result "OK" or "KO" for the test.}
+
+\item{rata}{data.frame containing columns named as productName, subjectName and 'Score' containing a score attributed to the test}
 }
 \description{
 @title getThreshold

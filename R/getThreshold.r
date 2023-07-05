@@ -1,6 +1,8 @@
 #'  @title getThreshold
 #' returns the observed sensitivity thresholds of the subjects (=0 if the subject found the right sample for all concentrations, 1 if he/she found the right sample for all concentrations but the lightest one, etc.
+#' @param resName name of the column containing the result "OK" or "KO" for the test.
 #' @param res result of keepLastOccurrence (or dataframe)
+#' @param rata data.frame containing columns named as productName, subjectName and 'Score' containing a score attributed to the test
 #' @inheritParams keepLastOccurence
 #' @param decreasingConcentrations vector contaning the products corresponding to the decreasing concentrations
 #' @export
@@ -10,7 +12,7 @@
 #' seuils=getThreshold(res=res,
 #' decreasingConcentrations=c("C9","C8","C7","C6","C5","C4","C3","C2","C1"))
 
-getThreshold=function(res,decreasingConcentrations=c("C9","C8","C7","C6","C5","C4","C3","C2","C1"),subjectName="Panéliste",productName="Produit",descriptorName="Descripteur",timeName="Temps",resName="Res")
+getThreshold=function(res,decreasingConcentrations=c("C9","C8","C7","C6","C5","C4","C3","C2","C1"),subjectName="Panéliste",productName="Produit",descriptorName="Descripteur",timeName="Temps",resName="Res",rata=NULL)
 {
   if(inherits(res,"afc"))
   {
@@ -24,6 +26,16 @@ getThreshold=function(res,decreasingConcentrations=c("C9","C8","C7","C6","C5","C
   if(inherits(res,"data.frame"))
   {
     df=res
+  }
+  if(!is.null(rata))
+  {
+    if(!subjectName%in%colnames(rata)){stop("subjectName is not in rata colnames")}
+    if(!productName%in%colnames(rata)){stop("productName is not in rata colnames")}
+    if(!"Score"%in%colnames(rata)){stop("'Score' should be in rata colnames")}
+
+    df2=merge(df,rata,by.x=c(subjectName,productName),by.y=c(subjectName,productName))
+    df=df2[,c(subjectName,productName,resName,timeName,"nClicks","Score.y")]
+    colnames(df)=c(subjectName,productName,resName,timeName,"nClicks","score")
   }
   products=levels(factor(df[,productName]))
  # print(products)
@@ -71,5 +83,6 @@ getThreshold=function(res,decreasingConcentrations=c("C9","C8","C7","C6","C5","C
   }
   threshold=length(decreasingConcentrations)-observedThreshold
   dfres=cbind(dfLastSucceed,threshold)
-  return(dfres[,c(subjectName,productName,timeName,"nClicks",resName,"threshold")])
+  if(!is.null(rata)){namesCol=c(subjectName,productName,timeName,"nClicks",resName,"threshold","score")}else{  namesCol=c(subjectName,productName,timeName,"nClicks",resName,"threshold")}
+  return(dfres[,namesCol])
 }
