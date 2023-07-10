@@ -31,7 +31,7 @@ analyseScores=function(rata,decreasingConcentrations=c("C9","C8","C7","C6","C5",
      thr=getThreshold(res,decreasingConcentrations=decreasingConcentrations,subjectName=subjectName,productName=productName,descriptorName=descriptorName,timeName=timeName,resName=resName,rata=rata)
      thr2=thr[,c(productName,subjectName,"score")]
      colnames(thr2)=c("concentration","subject","score")
-     p+geom_point(data=thr2,mapping=aes(x=concentration,y=score,col=subject),size=3)
+     p=p+geom_point(data=thr2,mapping=aes(x=concentration,y=score,col=subject),size=3)
   }
   return(p)
 }
