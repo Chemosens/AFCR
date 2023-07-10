@@ -10,5 +10,5 @@ License: GPL-3
 Depends: R (>= 4.0.1)
 RoxygenNote: 7.2.3
 Encoding: UTF-8
-Imports: testthat
+Imports: forcats, ggplot2
 
