@@ -1,4 +1,5 @@
-#' @title keepLastOccurence
+#' keepLastOccurence
+#'
 #' Returns the dataframe with the last click only. Also indicates the time of the last click, the result (KO or OK, entered in descriptor after an underscore) and the number of clicks
 #' @param x is the dataset containing the results of AFC test containing these columns: subjectName, productName,descriptorName,timeName.
 #' @param subjectName name of the column containing the subject information

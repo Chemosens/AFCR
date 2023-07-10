@@ -2,8 +2,7 @@
 % Please edit documentation in R/getThreshold.r
 \name{getThreshold}
 \alias{getThreshold}
-\title{@title getThreshold
-returns the observed sensitivity thresholds of the subjects (=0 if the subject found the right sample for all concentrations, 1 if he/she found the right sample for all concentrations but the lightest one, etc.}
+\title{getThreshold}
 \usage{
 getThreshold(
   res,
@@ -34,8 +33,7 @@ getThreshold(
 \item{rata}{data.frame containing columns named as productName, subjectName and 'Score' containing a score attributed to the test}
 }
 \description{
-@title getThreshold
-returns the observed sensitivity thresholds of the subjects (=0 if the subject found the right sample for all concentrations, 1 if he/she found the right sample for all concentrations but the lightest one, etc.
+getThreshold returns the observed sensitivity thresholds of the subjects (=0 if the subject found the right sample for all concentrations, 1 if he/she found the right sample for all concentrations but the lightest one, etc.
 }
 \examples{
 data(triangular)

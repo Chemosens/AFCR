@@ -1,4 +1,5 @@
 #' analyseSores
+#'
 #' Returns the plots with the scores according to their concentrations
 #' @inheritParams getThreshold
 #' @param scoreName name of the column containing the scores in rata data.frame

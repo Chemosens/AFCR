@@ -2,8 +2,7 @@
 % Please edit documentation in R/analysisScores.R
 \name{analyseScores}
 \alias{analyseScores}
-\title{analyseSores
-Returns the plots with the scores according to their concentrations}
+\title{analyseSores}
 \usage{
 analyseScores(
   rata,
@@ -34,7 +33,6 @@ analyseScores(
 \item{scoreName}{name of the column containing the scores in rata data.frame}
 }
 \description{
-analyseSores
 Returns the plots with the scores according to their concentrations
 }
 \examples{

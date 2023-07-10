@@ -2,8 +2,7 @@
 % Please edit documentation in R/keepLastOccurrence.r
 \name{keepLastOccurence}
 \alias{keepLastOccurence}
-\title{keepLastOccurence
-Returns the dataframe with the last click only. Also indicates the time of the last click, the result (KO or OK, entered in descriptor after an underscore) and the number of clicks}
+\title{keepLastOccurence}
 \usage{
 keepLastOccurence(
   x,
@@ -25,7 +24,6 @@ keepLastOccurence(
 \item{timeName}{name of the column containing the subject information}
 }
 \description{
-keepLastOccurence
 Returns the dataframe with the last click only. Also indicates the time of the last click, the result (KO or OK, entered in descriptor after an underscore) and the number of clicks
 }
 \examples{
