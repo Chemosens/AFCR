@@ -12,7 +12,8 @@ analyseScores(
   descriptorName = "Descripteur",
   timeName = "Temps",
   resName = "Res",
-  scoreName = "Score"
+  scoreName = "Score",
+  triangular = NULL
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ analyseScores(
 \item{resName}{name of the column containing the result "OK" or "KO" for the test.}
 
 \item{scoreName}{name of the column containing the scores in rata data.frame}
+
+\item{triangular}{if NULL, the obtained triangular thresholds are not represented on the graph. If not NULL, contains the dataset containing the results of AFC test containing these columns: subjectName, productName,descriptorName,timeName}
 }
 \description{
 Returns the plots with the scores according to their concentrations
@@ -40,4 +43,7 @@ data(rata)
 p=analyseScores(rata,decreasingConcentrations=c("C9","C8","C7","C6","C5","C4","C3","C2","C1"),
 subjectName="Paneliste",productName="Produit",scoreName="Score")
 p
+data(triangular)
+p=analyseScores(rata,decreasingConcentrations=c("C9","C8","C7","C6","C5","C4","C3","C2","C1"),
+subjectName="Paneliste",productName="Produit",scoreName="Score",triangular=triangular)
 }
