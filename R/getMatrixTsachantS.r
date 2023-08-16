@@ -1,3 +1,7 @@
+#' @param p probability to fail an AFC test
+#' @param K number of successive AFC tests
+#'@param eps 0
+#'@param modelEps "last"
 getMatrixTsachantS=function(p,K,eps=0,modelEps="last")
 {
   res=matrix(NA,K+1,K+1)

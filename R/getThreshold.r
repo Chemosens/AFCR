@@ -48,7 +48,7 @@ getThreshold=function(res,decreasingConcentrations=c("C9","C8","C7","C6","C5","C
   dfLastSucceed=data.frame()
   for(suj in subjects)
   {
-   # print(suj)
+
     dataSuj=df[df[,subjectName]==suj,]
     rownames(dataSuj)=df[df[,subjectName]==suj,productName]
     dataSujOrdered=dataSuj[decreasingConcentrations,]

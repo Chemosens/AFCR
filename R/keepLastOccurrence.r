@@ -16,12 +16,21 @@ keepLastOccurence=function(x,subjectName="Panéliste",productName="Produit",desc
   subjects=levels(factor(x[,subjectName]))
   products=levels(factor(x[,productName]))
   df=NULL
+  subjectToRemove=NULL
   for(suj in subjects)
   {
     for(prod in products)
     {
       dataToKeep=x[x[,subjectName]==suj&x[,productName]==prod&!(x[,descriptorName]%in%c("START","STOP")),]
-      dataToKeep[,"nClicks"]=1
+      if(dim(dataToKeep)[1]>0)
+      {
+        dataToKeep[,"nClicks"]=1
+      }
+      if(dim(dataToKeep)[1]==0)
+      {
+        warning(paste0(suj, " has not tasted ",prod))
+        subjectToRemove=c(subjectToRemove,suj)
+      }
       if(dim(dataToKeep)[1]>1)
       {
         dataToKeep[,"nClicks"]=dim(dataToKeep)[1]
@@ -32,6 +41,8 @@ keepLastOccurence=function(x,subjectName="Panéliste",productName="Produit",desc
     }
   }
   df[,"Res"]=substr(df[,descriptorName],nchar(as.character(df[,productName]))+2,nchar(as.character(df[,productName]))+3)
+  df=df[!df[,subjectName]%in%subjectToRemove,]
+  df[,subjectName]=as.factor(as.character(df[,subjectName]))
   res=list(df=df,subjectName=subjectName,productName=productName,descriptorName=descriptorName,timeName=timeName)
   class(res)="afc"
   return(res)
