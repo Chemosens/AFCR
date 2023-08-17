@@ -13,7 +13,8 @@ analyseScores(
   timeName = "Temps",
   resName = "Res",
   scoreName = "Score",
-  triangular = NULL
+  triangular = NULL,
+  displayAFC = FALSE
 )
 }
 \arguments{
