@@ -14,7 +14,10 @@ analyseScores(
   resName = "Res",
   scoreName = "Score",
   triangular = NULL,
-  displayAFC = FALSE
+  displayAFC = FALSE,
+  decreasingNumConcentrations = NULL,
+  regression = FALSE,
+  revertX = FALSE
 )
 }
 \arguments{
@@ -35,6 +38,12 @@ analyseScores(
 \item{scoreName}{name of the column containing the scores in rata data.frame}
 
 \item{triangular}{if NULL, the obtained triangular thresholds are not represented on the graph. If not NULL, contains the dataset containing the results of AFC test containing these columns: subjectName, productName,descriptorName,timeName}
+
+\item{decreasingNumConcentrations}{numerical values of the used concentrations}
+
+\item{regression}{if TRUE, adds a linear regression and its statistical indicators (R2, RMSE) to the graph}
+
+\item{revertX}{if TRUE, allows the x-axis the to be inverted}
 }
 \description{
 Returns the plots with the scores according to their concentrations
