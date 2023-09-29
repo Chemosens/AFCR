@@ -96,15 +96,13 @@ analyseScores=function(rata,decreasingConcentrations=c("C9","C8","C7","C6","C5",
          r2=summary(reslm)$r.squared
          ssr=sum(summary(reslm)$residuals^2)
          rmse=sqrt(ssr/length(summary(reslm)$residuals))
-
          subtitle=paste0("R2: ",round(summary(reslm)$r.squared,digits=2),"; RMSE:", round(rmse,2))
-         p=p+geom_abline(intercept = coef(reslm)[1], slope = coef(reslm)[2], col="blue")+labs(subtitle=subtitle)
-
+         p=p + geom_abline(intercept = coef(reslm)[1], slope = coef(reslm)[2], col="blue") + labs(subtitle=subtitle)
        }
      }
   }
 
+  listRes=list(p=p,r2=r2,rmse=rmse)
 
-
-  return(p)
+  return(listRes)
 }
