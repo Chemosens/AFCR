@@ -8,8 +8,10 @@
 #' @param decreasingNumConcentrations numerical values of the used concentrations
 #' @param revertX if TRUE, allows the x-axis the to be inverted
 #' @param regression if TRUE, adds a linear regression and its statistical indicators (R2, RMSE) to the graph
+#' @param displayAFC if TRUE, the AFC result is displayed (a point when the AFC test was succeeded, a cross if it was failed )
 #' @importFrom forcats fct_relevel
 #' @importFrom ggplot2 labs geom_abline scale_shape_manual geom_line theme_bw ggtitle aes ggplot geom_point
+#' @importFrom stats coef lm
 #' @export
 #' @examples
 #' data(rata)
@@ -21,7 +23,7 @@
 #' subjectName="Paneliste",productName="Produit",scoreName="Score",triangular=triangular)
 analyseScores=function(rata,decreasingConcentrations=c("C9","C8","C7","C6","C5","C4","C3","C2","C1"),subjectName="Panéliste",productName="Produit",descriptorName="Descripteur",timeName="Temps",resName="Res",scoreName="Score",triangular=NULL,displayAFC=FALSE,decreasingNumConcentrations=NULL,regression=FALSE, revertX=FALSE)
 {
-  subject=score=concentration=NULL
+  subject=score=concentration=concentration2=Res=NULL
   rata2=rata[,c(productName,subjectName,scoreName)]
   colnames(rata2)=c("concentration","subject","score")
   rata2[,"concentration"]=factor(rata2[,"concentration"])

@@ -39,6 +39,8 @@ analyseScores(
 
 \item{triangular}{if NULL, the obtained triangular thresholds are not represented on the graph. If not NULL, contains the dataset containing the results of AFC test containing these columns: subjectName, productName,descriptorName,timeName}
 
+\item{displayAFC}{if TRUE, the AFC result is displayed (a point when the AFC test was succeeded, a cross if it was failed )}
+
 \item{decreasingNumConcentrations}{numerical values of the used concentrations}
 
 \item{regression}{if TRUE, adds a linear regression and its statistical indicators (R2, RMSE) to the graph}
