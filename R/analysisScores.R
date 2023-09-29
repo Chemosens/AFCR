@@ -52,7 +52,7 @@ analyseScores=function(rata,decreasingConcentrations=c("C9","C8","C7","C6","C5",
   {
     p=ggplot(rata2,aes(x=concentration,y=score,group=subject,color=subject))+geom_line()+theme_bw()+ggtitle("Scores according to concentrations")
   }
-  r2=rmse=NULL
+  r2=rmse=NA
   if(!is.null(triangular))
   {
      res=keepLastOccurence(triangular,subjectName=subjectName,productName=productName,descriptorName=descriptorName,timeName=timeName)
@@ -87,6 +87,7 @@ analyseScores=function(rata,decreasingConcentrations=c("C9","C8","C7","C6","C5",
 
      if(regression& !is.null(decreasingNumConcentrations)&length(unique(rata[,subjectName]))==1)
      {
+
        relevantData=rata2[,"concentration2"]>=thr2[,"concentration2"]
 
        if(sum(relevantData)>2)
@@ -95,11 +96,15 @@ analyseScores=function(rata,decreasingConcentrations=c("C9","C8","C7","C6","C5",
          r2=summary(reslm)$r.squared
          ssr=sum(summary(reslm)$residuals^2)
          rmse=sqrt(ssr/length(summary(reslm)$residuals))
+
          subtitle=paste0("R2: ",round(summary(reslm)$r.squared,digits=2),"; RMSE:", round(rmse,2))
          p=p+geom_abline(intercept = coef(reslm)[1], slope = coef(reslm)[2], col="blue")+labs(subtitle=subtitle)
 
        }
      }
-   }
-  return(list(p=p,r2=r2,rmse=rmse))
+  }
+
+
+
+  return(p)
 }
