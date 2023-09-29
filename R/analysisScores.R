@@ -91,7 +91,9 @@ analyseScores=function(rata,decreasingConcentrations=c("C9","C8","C7","C6","C5",
        if(sum(relevantData)>2)
        {
          reslm=lm(rata2[relevantData,"score"]~rata2[relevantData,"concentration2"])
-         subtitle=paste0("R2: ",round(summary(reslm)$r.squared,digits=2))
+         ssr=sum(summary(reslm)$residuals^2)
+         rmse=sqrt(ssr/length(summary(reslm)$residuals))
+         subtitle=paste0("R2: ",round(summary(reslm)$r.squared,digits=2),"; RMSE:", round(rmse,2))
          p=p+geom_abline(intercept = coef(reslm)[1], slope = coef(reslm)[2], col="blue")+labs(subtitle=subtitle)
 
        }
