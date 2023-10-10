@@ -15,7 +15,7 @@
 #' data(rata)
 #' seuils=getThreshold(res=res,
 #' decreasingConcentrations=c("C9","C8","C7","C6","C5","C4","C3","C2","C1"),rata=rata)
-getThreshold=function(res,decreasingConcentrations=c("C9","C8","C7","C6","C5","C4","C3","C2","C1"),subjectName="Panéliste",productName="Produit",descriptorName="Descripteur",timeName="Temps",resName="Res",rata=NULL)
+getThreshold=function(res,decreasingConcentrations=c("C9","C8","C7","C6","C5","C4","C3","C2","C1"),subjectName="Panéliste",productName="Produit",descriptorName="Descripteur",timeName="Temps",resName="Res",rata=NULL,decreasingNumConcentrations=NULL)
 {
   if(inherits(res,"afc"))
   {
@@ -35,7 +35,6 @@ getThreshold=function(res,decreasingConcentrations=c("C9","C8","C7","C6","C5","C
     if(!subjectName%in%colnames(rata)){stop("subjectName is not in rata colnames")}
     if(!productName%in%colnames(rata)){stop("productName is not in rata colnames")}
     if(!"Score"%in%colnames(rata)){stop("'Score' should be in rata colnames")}
-
     df2=merge(df,rata,by.x=c(subjectName,productName),by.y=c(subjectName,productName))
     df=df2[,c(subjectName,productName,resName,timeName,"nClicks","Score.y")]
     colnames(df)=c(subjectName,productName,resName,timeName,"nClicks","score")
@@ -48,12 +47,15 @@ getThreshold=function(res,decreasingConcentrations=c("C9","C8","C7","C6","C5","C
   dfLastSucceed=data.frame()
   for(suj in subjects)
   {
-
     dataSuj=df[df[,subjectName]==suj,]
+    # if(!is.null(decreasingNumConcentrations))
+    # {
+    #   dataSuj[,"avg"]=dataSuj[,]+dataSuj[,]/2
+    # }
     rownames(dataSuj)=df[df[,subjectName]==suj,productName]
     dataSujOrdered=dataSuj[decreasingConcentrations,]
     threshold=0
-    i=1
+    i=1 # concentration index
     continue=TRUE
     while(i<length(decreasingConcentrations)+1&continue)
     {
@@ -77,15 +79,52 @@ getThreshold=function(res,decreasingConcentrations=c("C9","C8","C7","C6","C5","C
       }
     }
     observedThreshold[suj]=i-1
-  #  print(observedThreshold)
+  # print(observedThreshold)
     if(observedThreshold[suj]==length(decreasingConcentrations))
     {
       infoToRemember=dataSujOrdered[decreasingConcentrations[length(decreasingConcentrations)],]
     }
+
     dfLastSucceed=rbind(dfLastSucceed,infoToRemember)
   }
   threshold=length(decreasingConcentrations)-observedThreshold
   dfres=cbind(dfLastSucceed,threshold)
-  if(!is.null(rata)){namesCol=c(subjectName,productName,timeName,"nClicks",resName,"threshold","score")}else{  namesCol=c(subjectName,productName,timeName,"nClicks",resName,"threshold")}
+  if(!is.null(decreasingNumConcentrations))
+  {
+    thresholdNum=rep(NA,length(threshold))
+    for(i in 1:length(observedThreshold))
+    {
+      print(observedThreshold[i])
+      conc=decreasingNumConcentrations[observedThreshold[i]]
+      if(observedThreshold[i]==0)
+      {
+        thresholdNum[i]=decreasingNumConcentrations[1]
+      }
+      else
+      {
+        if(observedThreshold[i]==length(decreasingConcentrations))
+        {toAdd=conc}
+        else{toAdd=decreasingNumConcentrations[observedThreshold[i]+1]}
+        thresholdNum[i]=(1/2)*(conc + toAdd)
+        # if(!is.null(rata))
+        # {
+        #   relatedScores[i]=1/2()
+        # }
+
+      }
+
+    }
+    dfres=cbind(dfres,thresholdNum=thresholdNum)
+  }
+
+  if(!is.null(rata)){
+    namesCol=c(subjectName,productName,timeName,"nClicks",resName,"threshold","score")
+  }else{
+      namesCol=c(subjectName,productName,timeName,"nClicks",resName,"threshold")
+  }
+  if(!is.null(decreasingNumConcentrations))
+  {
+    namesCol=c(namesCol,"thresholdNum")
+  }
   return(dfres[,namesCol])
 }

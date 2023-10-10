@@ -21,10 +21,13 @@ keepLastOccurence=function(x,subjectName="Panéliste",productName="Produit",desc
   {
     for(prod in products)
     {
+      dataStop=x[x[,subjectName]==suj&x[,productName]==prod& x[,descriptorName]%in%c("START","STOP"),]
+
       dataToKeep=x[x[,subjectName]==suj&x[,productName]==prod&!(x[,descriptorName]%in%c("START","STOP")),]
       if(dim(dataToKeep)[1]>0)
       {
         dataToKeep[,"nClicks"]=1
+        dataToKeep[,"duration"]=dataStop[dataStop[,descriptorName]=="STOP",timeName]
       }
       if(dim(dataToKeep)[1]==0)
       {
@@ -35,6 +38,7 @@ keepLastOccurence=function(x,subjectName="Panéliste",productName="Produit",desc
       {
         dataToKeep[,"nClicks"]=dim(dataToKeep)[1]
         dataToKeep=dataToKeep[which.max(dataToKeep[,timeName]),]
+        dataToKeep[,"duration"]=dataStop[dataStop[,descriptorName]=="STOP",timeName]
       }
       if(is.null(df)){df=dataToKeep}
       else{df=rbind(df,dataToKeep)}

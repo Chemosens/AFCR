@@ -21,20 +21,21 @@
 #' data(triangular)
 #' p=analyseScores(rata,decreasingConcentrations=c("C9","C8","C7","C6","C5","C4","C3","C2","C1"),
 #' subjectName="Paneliste",productName="Produit",scoreName="Score",triangular=triangular)
-analyseScores=function(rata,decreasingConcentrations=c("C9","C8","C7","C6","C5","C4","C3","C2","C1"),subjectName="Panéliste",productName="Produit",descriptorName="Descripteur",timeName="Temps",resName="Res",scoreName="Score",triangular=NULL,displayAFC=FALSE,decreasingNumConcentrations=NULL,regression=FALSE, revertX=FALSE, logY=FALSE)
+analyseScores=function(rata,decreasingConcentrations=c("C9","C8","C7","C6","C5","C4","C3","C2","C1"),subjectName="Panéliste",productName="Produit",descriptorName="Descripteur",timeName="Temps",resName="Res",scoreName="Score",
+                       triangular=NULL,displayAFC=FALSE,decreasingNumConcentrations=NULL,regression=FALSE, revertX=FALSE, logY=FALSE)
 {
   subject=score=concentration=concentration2=Res=NULL
   rata2=rata[,c(productName,subjectName,scoreName)]
   colnames(rata2)=c("concentration","subject","score")
   rata2[,"concentration"]=factor(rata2[,"concentration"])
-     if(!revertX)
+  if(!revertX)
     {
       rata2[,"concentration"]=fct_relevel(rata2[,"concentration"],decreasingConcentrations)
     }
-    if(revertX& is.null(decreasingNumConcentrations))
-    {
-      rata2[,"concentration"]=fct_relevel(rata2[,"concentration"],rev(decreasingConcentrations))
-    }
+  if(revertX& is.null(decreasingNumConcentrations))
+  {
+    rata2[,"concentration"]=fct_relevel(rata2[,"concentration"],rev(decreasingConcentrations))
+  }
 
   if(!is.null(decreasingNumConcentrations))
   {
@@ -42,6 +43,24 @@ analyseScores=function(rata,decreasingConcentrations=c("C9","C8","C7","C6","C5",
     correspondance=decreasingNumConcentrations
     names(correspondance)=decreasingConcentrations
     rata2[,"concentration2"]=correspondance[as.character(rata2[,"concentration2"])]
+    # rata2[,"avg"]=NA
+    # for(subject in levels(rata2[,"subject"]))
+    # {
+    #   for(product in decreasingConcentrations)
+    #   {
+    #     if(product!=decreasingConcentrations[1])
+    #     {
+    #       previousConcentration=decreasingConcentration[which(decreasingConcentrations==product)-1]
+    #       rata2[rata2[,subjectName]==subject&rata2[,productName]==product,"avg"]=correspondance[product]+correspondance[previousConcentration]
+    #     }
+    #     else
+    #     {
+    #       rata2[rata2[,subjectName]==subject&rata2[,productName]==product,"avg"]=decreasingNumConcentrations[length(decreasingNumConcentrations)]
+    #     }
+    #
+    #   }
+    #
+    # }
   }
   if(logY){rata2[,"score"]=log(rata2[,"score"]+1)}
    if(!is.null(decreasingNumConcentrations))
@@ -56,9 +75,8 @@ analyseScores=function(rata,decreasingConcentrations=c("C9","C8","C7","C6","C5",
   if(!is.null(triangular))
   {
      res=keepLastOccurence(triangular,subjectName=subjectName,productName=productName,descriptorName=descriptorName,timeName=timeName)
-     thr=getThreshold(res,decreasingConcentrations=decreasingConcentrations,subjectName=subjectName,productName=productName,descriptorName=descriptorName,timeName=timeName,resName=resName,rata=rata)
+     thr=getThreshold(res,decreasingConcentrations=decreasingConcentrations,subjectName=subjectName,productName=productName,descriptorName=descriptorName,timeName=timeName,resName=resName,rata=rata,decreasingNumConcentrations=decreasingNumConcentrations)
      wrongs=res$df
-
      thr2=thr[,c(productName,subjectName,"score")]
      colnames(thr2)=c("concentration","subject","score")
      if(logY){thr2[,"score"]=log(thr2[,"score"]+1)}
@@ -69,7 +87,6 @@ analyseScores=function(rata,decreasingConcentrations=c("C9","C8","C7","C6","C5",
     if(!is.null(decreasingNumConcentrations))
     {
       thr2[,"concentration2"]=correspondance[as.character(thr2[,"concentration"])]
-
       p=p+geom_point(data=thr2,mapping=aes(x=concentration2,y=score,col=subject),size=4,shape=2)
     }
 
@@ -87,8 +104,8 @@ analyseScores=function(rata,decreasingConcentrations=c("C9","C8","C7","C6","C5",
          p=p+geom_point(data=df_wrong,mapping=aes(x=concentration2,y=score,col=subject,shape=Res))+scale_shape_manual(values=c("OK"=20,"KO"=4))
        }
     }
-  subtitle=""
-     if(regression& !is.null(decreasingNumConcentrations)&length(unique(rata[,subjectName]))==1)
+    subtitle=""
+     if(regression & !is.null(decreasingNumConcentrations)&length(unique(rata[,subjectName]))==1)
      {
 
        relevantDataPos=rata2[,"concentration2"]>=thr2[,"concentration2"]
