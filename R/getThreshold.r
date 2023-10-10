@@ -38,22 +38,28 @@ getThreshold=function(res,decreasingConcentrations=c("C9","C8","C7","C6","C5","C
     df2=merge(df,rata,by.x=c(subjectName,productName),by.y=c(subjectName,productName))
     df=df2[,c(subjectName,productName,resName,timeName,"nClicks","Score.y")]
     colnames(df)=c(subjectName,productName,resName,timeName,"nClicks","score")
+
   }
   products=levels(factor(df[,productName]))
- # print(products)
+
   if(!all(decreasingConcentrations%in%products)){stop("One decreasingConcentrations is not in the products")}
+
   subjects=levels(factor(df[,subjectName]))
   observedThreshold=rep(NA,length(subjects));names(observedThreshold)=subjects
   dfLastSucceed=data.frame()
   for(suj in subjects)
   {
     dataSuj=df[df[,subjectName]==suj,]
-    # if(!is.null(decreasingNumConcentrations))
-    # {
-    #   dataSuj[,"avg"]=dataSuj[,]+dataSuj[,]/2
-    # }
+
     rownames(dataSuj)=df[df[,subjectName]==suj,productName]
     dataSujOrdered=dataSuj[decreasingConcentrations,]
+    dataSujOrdered[,"avg"]=NA
+    if(!is.null(decreasingNumConcentrations)&!is.null(rata))
+    {
+      dataSujOrdered[length(decreasingConcentrations),"avg"]=dataSujOrdered[length(decreasingConcentrations),"score"]
+      dataSujOrdered[-length(decreasingConcentrations),"avg"]=(dataSujOrdered[-length(decreasingConcentrations),"score"]+dataSujOrdered[-1,"score"])/2
+    print(dataSujOrdered)
+   }
     threshold=0
     i=1 # concentration index
     continue=TRUE
@@ -79,22 +85,38 @@ getThreshold=function(res,decreasingConcentrations=c("C9","C8","C7","C6","C5","C
       }
     }
     observedThreshold[suj]=i-1
-  # print(observedThreshold)
+  # Si le sujet est très bon
     if(observedThreshold[suj]==length(decreasingConcentrations))
     {
       infoToRemember=dataSujOrdered[decreasingConcentrations[length(decreasingConcentrations)],]
+      if(!is.null(decreasingNumConcentrations)&!is.null(rata))
+      {
+        infoToRemember[,"avg"]=dataSujOrdered[decreasingConcentrations[length(decreasingConcentrations)],"score"]
+      }
+    }
+
+    if(observedThreshold[suj]==0)
+    {
+      infoToRemember=dataSujOrdered[1,]
+      if(!is.null(decreasingNumConcentrations)&!is.null(rata))
+      {
+        infoToRemember[,"avg"]=dataSujOrdered[1,"score"]
+      }
     }
 
     dfLastSucceed=rbind(dfLastSucceed,infoToRemember)
   }
+  print(dfLastSucceed)
   threshold=length(decreasingConcentrations)-observedThreshold
   dfres=cbind(dfLastSucceed,threshold)
+
+  # Calculation of threshold num
   if(!is.null(decreasingNumConcentrations))
   {
     thresholdNum=rep(NA,length(threshold))
     for(i in 1:length(observedThreshold))
     {
-      print(observedThreshold[i])
+      #print(observedThreshold[i])
       conc=decreasingNumConcentrations[observedThreshold[i]]
       if(observedThreshold[i]==0)
       {
@@ -125,6 +147,11 @@ getThreshold=function(res,decreasingConcentrations=c("C9","C8","C7","C6","C5","C
   if(!is.null(decreasingNumConcentrations))
   {
     namesCol=c(namesCol,"thresholdNum")
+    if(!is.null(rata))
+    {
+      namesCol=c(namesCol,"avg")
+    }
+
   }
   return(dfres[,namesCol])
 }

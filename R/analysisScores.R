@@ -43,24 +43,7 @@ analyseScores=function(rata,decreasingConcentrations=c("C9","C8","C7","C6","C5",
     correspondance=decreasingNumConcentrations
     names(correspondance)=decreasingConcentrations
     rata2[,"concentration2"]=correspondance[as.character(rata2[,"concentration2"])]
-    # rata2[,"avg"]=NA
-    # for(subject in levels(rata2[,"subject"]))
-    # {
-    #   for(product in decreasingConcentrations)
-    #   {
-    #     if(product!=decreasingConcentrations[1])
-    #     {
-    #       previousConcentration=decreasingConcentration[which(decreasingConcentrations==product)-1]
-    #       rata2[rata2[,subjectName]==subject&rata2[,productName]==product,"avg"]=correspondance[product]+correspondance[previousConcentration]
-    #     }
-    #     else
-    #     {
-    #       rata2[rata2[,subjectName]==subject&rata2[,productName]==product,"avg"]=decreasingNumConcentrations[length(decreasingNumConcentrations)]
-    #     }
-    #
-    #   }
-    #
-    # }
+
   }
   if(logY){rata2[,"score"]=log(rata2[,"score"]+1)}
    if(!is.null(decreasingNumConcentrations))
@@ -77,8 +60,17 @@ analyseScores=function(rata,decreasingConcentrations=c("C9","C8","C7","C6","C5",
      res=keepLastOccurence(triangular,subjectName=subjectName,productName=productName,descriptorName=descriptorName,timeName=timeName)
      thr=getThreshold(res,decreasingConcentrations=decreasingConcentrations,subjectName=subjectName,productName=productName,descriptorName=descriptorName,timeName=timeName,resName=resName,rata=rata,decreasingNumConcentrations=decreasingNumConcentrations)
      wrongs=res$df
-     thr2=thr[,c(productName,subjectName,"score")]
-     colnames(thr2)=c("concentration","subject","score")
+     if("avg"%in%colnames(thr))
+     {
+       thr2=thr[,c(productName,subjectName,"score","avg","thresholdNum")]
+       colnames(thr2)=c("concentration","subject","score","avg","thresholdNum")
+     }
+     else
+     {
+       thr2=thr[,c(productName,subjectName,"score")]
+       colnames(thr2)=c("concentration","subject","score")
+     }
+
      if(logY){thr2[,"score"]=log(thr2[,"score"]+1)}
      if(is.null(decreasingNumConcentrations))
      {
@@ -86,15 +78,15 @@ analyseScores=function(rata,decreasingConcentrations=c("C9","C8","C7","C6","C5",
      }
     if(!is.null(decreasingNumConcentrations))
     {
+
       thr2[,"concentration2"]=correspondance[as.character(thr2[,"concentration"])]
-      p=p+geom_point(data=thr2,mapping=aes(x=concentration2,y=score,col=subject),size=4,shape=2)
+      p=p+geom_point(data=thr2,mapping=aes(x=thresholdNum,y=avg,col=subject),size=4,shape=2)
     }
 
     if(displayAFC)
      {
        df_wrong=merge(rata2,wrongs,by.y=c(subjectName,productName),by.x=c("subject","concentration"),all.x=TRUE)
        df_wrong=df_wrong[!is.na(df_wrong[,"Res"]),]
-       #if(logY){df_wrong[,"score"]=log(df_wrong[,"score"]+1)}
        if(is.null(decreasingNumConcentrations))
        {
          p=p+geom_point(data=df_wrong,mapping=aes(x=concentration,y=score,col=subject,shape=Res))+scale_shape_manual(values=c("OK"=20,"KO"=4))
