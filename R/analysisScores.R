@@ -22,7 +22,7 @@
 #' p=analyseScores(rata,decreasingConcentrations=c("C9","C8","C7","C6","C5","C4","C3","C2","C1"),
 #' subjectName="Paneliste",productName="Produit",scoreName="Score",triangular=triangular)
 analyseScores=function(rata,decreasingConcentrations=c("C9","C8","C7","C6","C5","C4","C3","C2","C1"),subjectName="Panéliste",productName="Produit",descriptorName="Descripteur",timeName="Temps",resName="Res",scoreName="Score",
-                       triangular=NULL,displayAFC=FALSE,decreasingNumConcentrations=NULL,regression=FALSE, revertX=FALSE, logY=FALSE)
+                       triangular=NULL,displayAFC=FALSE,decreasingNumConcentrations=NULL,regression=FALSE, revertX=FALSE, logY=FALSE,minConc=0,maxConc=NULL)
 {
   subject=score=concentration=concentration2=Res=NULL
   rata2=rata[,c(productName,subjectName,scoreName)]
@@ -43,7 +43,6 @@ analyseScores=function(rata,decreasingConcentrations=c("C9","C8","C7","C6","C5",
     correspondance=decreasingNumConcentrations
     names(correspondance)=decreasingConcentrations
     rata2[,"concentration2"]=correspondance[as.character(rata2[,"concentration2"])]
-
   }
   if(logY){rata2[,"score"]=log(rata2[,"score"]+1)}
    if(!is.null(decreasingNumConcentrations))
@@ -58,7 +57,7 @@ analyseScores=function(rata,decreasingConcentrations=c("C9","C8","C7","C6","C5",
   if(!is.null(triangular))
   {
      res=keepLastOccurence(triangular,subjectName=subjectName,productName=productName,descriptorName=descriptorName,timeName=timeName)
-     thr=getThreshold(res,decreasingConcentrations=decreasingConcentrations,subjectName=subjectName,productName=productName,descriptorName=descriptorName,timeName=timeName,resName=resName,rata=rata,decreasingNumConcentrations=decreasingNumConcentrations)
+     thr=getThreshold(res,decreasingConcentrations=decreasingConcentrations,subjectName=subjectName,productName=productName,descriptorName=descriptorName,timeName=timeName,resName=resName,rata=rata,decreasingNumConcentrations=decreasingNumConcentrations,minConc=minConc,maxConc=maxConc)
      wrongs=res$df
      if("avg"%in%colnames(thr))
      {
@@ -99,7 +98,6 @@ analyseScores=function(rata,decreasingConcentrations=c("C9","C8","C7","C6","C5",
     subtitle=""
      if(regression & !is.null(decreasingNumConcentrations)&length(unique(rata[,subjectName]))==1)
      {
-
        relevantDataPos=rata2[,"concentration2"]>=thr2[,"concentration2"]
        relevantDataNeg=rata2[,"concentration2"]<thr2[,"concentration2"]
 

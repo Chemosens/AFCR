@@ -18,7 +18,9 @@ analyseScores(
   decreasingNumConcentrations = NULL,
   regression = FALSE,
   revertX = FALSE,
-  logY = FALSE
+  logY = FALSE,
+  minConc = 0,
+  maxConc = NULL
 )
 }
 \arguments{

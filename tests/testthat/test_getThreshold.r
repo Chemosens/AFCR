@@ -12,12 +12,12 @@ test_that("test 3", expect_true(all(seuils[,"score"]==c(2,0,0))))
 
 
 seuils=getThreshold(res=df,decreasingConcentrations=c("C9","C8","C7","C6","C5","C4","C3","C2","C1"),
-                    decreasingNumConcentrations=9:1)
+                    decreasingNumConcentrations=9:1,minConc=1,maxConc=9)
 test_that("test 4", expect_true(all(seuils[,"thresholdNum"]==c(1,8.5,9))))
 
 
 seuils=getThreshold(res=df,decreasingConcentrations=c("C9","C8","C7","C6","C5","C4","C3","C2","C1"),
-                    decreasingNumConcentrations=9:1,rata=rata)
+                    decreasingNumConcentrations=9:1,rata=rata,minConc=1,maxConc=9)
 test_that("test 5", expect_true(all(seuils[,"thresholdNum"]==c(1,8.5,9))))
 test_that("test 6", expect_true(all(seuils[,"avg"]==c(2,1,0))))
 

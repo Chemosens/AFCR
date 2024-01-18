@@ -12,7 +12,10 @@ getThreshold(
   descriptorName = "Descripteur",
   timeName = "Temps",
   resName = "Res",
-  rata = NULL
+  rata = NULL,
+  decreasingNumConcentrations = NULL,
+  minConc = 0,
+  maxConc = NULL
 )
 }
 \arguments{

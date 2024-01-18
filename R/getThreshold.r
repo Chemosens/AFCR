@@ -15,7 +15,7 @@
 #' data(rata)
 #' seuils=getThreshold(res=res,
 #' decreasingConcentrations=c("C9","C8","C7","C6","C5","C4","C3","C2","C1"),rata=rata)
-getThreshold=function(res,decreasingConcentrations=c("C9","C8","C7","C6","C5","C4","C3","C2","C1"),subjectName="Panéliste",productName="Produit",descriptorName="Descripteur",timeName="Temps",resName="Res",rata=NULL,decreasingNumConcentrations=NULL)
+getThreshold=function(res,decreasingConcentrations=c("C9","C8","C7","C6","C5","C4","C3","C2","C1"),subjectName="Panéliste",productName="Produit",descriptorName="Descripteur",timeName="Temps",resName="Res",rata=NULL,decreasingNumConcentrations=NULL,minConc=0,maxConc=NULL)
 {
   if(inherits(res,"afc"))
   {
@@ -117,23 +117,25 @@ getThreshold=function(res,decreasingConcentrations=c("C9","C8","C7","C6","C5","C
     for(i in 1:length(observedThreshold))
     {
       #print(observedThreshold[i])
-      conc=decreasingNumConcentrations[observedThreshold[i]]
-      if(observedThreshold[i]==0)
-      {
-        thresholdNum[i]=decreasingNumConcentrations[1]
-      }
-      else
-      {
-        if(observedThreshold[i]==length(decreasingConcentrations))
-        {toAdd=conc}
-        else{toAdd=decreasingNumConcentrations[observedThreshold[i]+1]}
-        thresholdNum[i]=(1/2)*(conc + toAdd)
-        # if(!is.null(rata))
-        # {
-        #   relatedScores[i]=1/2()
-        # }
-
-      }
+      thresholdNum[i]=thresholdToConcentration(threshold[i],decreasingNumConcentrations=decreasingNumConcentrations,minConc=minConc,maxConc=maxConc)
+      
+      # conc=decreasingNumConcentrations[observedThreshold[i]]
+      # if(observedThreshold[i]==0)
+      # {
+      #   thresholdNum[i]=decreasingNumConcentrations[1]
+      # }
+      # else
+      # {
+      #   if(observedThreshold[i]==length(decreasingConcentrations))
+      #   {toAdd=conc}
+      #   else{toAdd=decreasingNumConcentrations[observedThreshold[i]+1]}
+      #   thresholdNum[i]=(1/2)*(conc + toAdd)
+      #   # if(!is.null(rata))
+      #   # {
+      #   #   relatedScores[i]=1/2()
+      #   # }
+      # 
+      # }
 
     }
     dfres=cbind(dfres,thresholdNum=thresholdNum)
