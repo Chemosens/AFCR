@@ -58,7 +58,7 @@ getThreshold=function(res,decreasingConcentrations=c("C9","C8","C7","C6","C5","C
     {
       dataSujOrdered[length(decreasingConcentrations),"avg"]=dataSujOrdered[length(decreasingConcentrations),"score"]
       dataSujOrdered[-length(decreasingConcentrations),"avg"]=(dataSujOrdered[-length(decreasingConcentrations),"score"]+dataSujOrdered[-1,"score"])/2
-    print(dataSujOrdered)
+
    }
     threshold=0
     i=1 # concentration index
@@ -106,7 +106,7 @@ getThreshold=function(res,decreasingConcentrations=c("C9","C8","C7","C6","C5","C
 
     dfLastSucceed=rbind(dfLastSucceed,infoToRemember)
   }
-  print(dfLastSucceed)
+
   threshold=length(decreasingConcentrations)-observedThreshold
   dfres=cbind(dfLastSucceed,threshold)
 

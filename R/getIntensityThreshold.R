@@ -8,16 +8,31 @@ getIntensityThreshold=function(intensityData,subjectName="Panéliste",scoreName=
   {
     intensityDatai=intensityData[intensityData[,subjectName]==subject,]
     scores=intensityDatai[,scoreName]
-    print(scores)
     scores=as.numeric(scores)
     names(scores)=intensityDatai[,productName]
-    print(scores)
-    print(intensityDatai[,productName])
-    print(decreasingConcentrations)
     reorderedScores=scores[decreasingConcentrations]
-    print(reorderedScores)
     difference=diff(reorderedScores)
-    if(all(difference<=0)){thresholdIndex=0}
+    if(all(difference<=0)){
+      if(difference[length(difference)]!=0){thresholdIndex=0}
+      else{
+        lastNull=J
+        continue=T
+        thresholdIndex=1
+        while(continue)
+        {
+          if(difference[lastNull-1]==0)
+          {
+            lastNull=lastNull-1
+            thresholdIndex=thresholdIndex+1
+            if(thresholdIndex==J){continue=FALSE}
+          }
+          else
+          {
+            continue=FALSE
+          }
+        }
+      }
+      }
     else{
       if(difference[1]>0){thresholdIndex=J}
       else
@@ -26,7 +41,6 @@ getIntensityThreshold=function(intensityData,subjectName="Panéliste",scoreName=
         # if equality after positive, choose the moment of strict rising
         increasing=difference[1:(indexLastDecrease-1)]
         lastIncreasing=increasing[length(increasing)]
-        
         while(lastIncreasing==0)
         {
           increasing=increasing[-length(increasing)]
