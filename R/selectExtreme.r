@@ -16,7 +16,7 @@ selectExtreme=function(N=200,n=40,lower=TRUE,p,probaS,K)
   probaTsachantS=getMatrixTsachantS(p=p,K=K,eps=0,modelEps="last")
   ncat=nG=rep(0,K+1);names(nG)=paste0("T",0:K)
   pG=cs=0
-  probaTinterSMat=matrix(0,K+1,K+1);rownames(probaTinterSMat)=paste0("S",1:(K+1)); colnames(probaTinterSMat)=paste0("T",1:(K+1));
+  probaTinterSMat=matrix(0,K+1,K+1);rownames(probaTinterSMat)=paste0("]c_",0:K,";c_",1:(K+1),"]"); colnames(probaTinterSMat)=paste0("T",1:(K+1));
   # Calculation of probability of T knowing S
   for(i in 1:(K+1))
   {
@@ -79,10 +79,10 @@ selectExtreme=function(N=200,n=40,lower=TRUE,p,probaS,K)
     nG=rev(nG); names(nG)=rev(names(nG))
     #probaSsachantG=rev(probaSsachantG);
   }
-  barplot(probaSsachantG,names.arg=0:K,main=paste0("composition of the obtained group"))
+ # barplot(probaSsachantG,names.arg=0:K,main=paste0("composition of the obtained group"))
   df=data.frame(thr=names(probaSsachantG),p=probaSsachantG)
   df[,"thr"]=factor(df[,"thr"])
-  df[,"thr"]=fct_relevel(df[,"thr"],paste0("S",1:(K+1)))
-  gg=ggplot(df,aes(x=thr,y=p))+geom_col()
+  df[,"thr"]=fct_relevel(df[,"thr"],paste0("]c_",0:K,";c_",1:(K+1),"]"))
+  gg=ggplot(df,aes(x=thr,y=p))+geom_col()+xlab("threshold")
   return(list(nG=nG,probaSSachantG=probaSsachantG,pG=pG,gg=gg,pGInterS=pGInterS))
 }

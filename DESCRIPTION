@@ -8,7 +8,6 @@ Maintainer: Caroline Peltier <caroline.peltier@inrae.fr>
 Description: Tools for analyzing data from successive AFC tests. AFC are alternative forced choices tests.
 License: GPL-3
 Depends: R (>= 4.0.1)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 Encoding: UTF-8
 Imports: forcats, ggplot2
-

@@ -15,3 +15,10 @@ test_that("test thresholdToConc (4)", expect_true(th4==8.5))
 
 th5=thresholdToConcentration(9,decreasingNumConcentrations=9:1,minConc=0,maxConc=10)
 test_that("test thresholdToConc (5)", expect_true(th5==9.5))
+
+
+th6=thresholdToConcentration(9,decreasingNumConcentrations=9:1,minConc=0.5,maxConc=14)
+test_that("test thresholdToConc (6)", expect_true(th6==11.5))
+
+th7=thresholdToConcentration(0,decreasingNumConcentrations=9:1,minConc=0.5,maxConc=14)
+test_that("test thresholdToConc (7)", expect_true(th7==0.75))
