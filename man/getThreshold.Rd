@@ -21,7 +21,7 @@ getThreshold(
 \arguments{
 \item{res}{result of keepLastOccurrence (or dataframe)}
 
-\item{decreasingConcentrations}{vector contaning the products corresponding to the decreasing concentrations}
+\item{decreasingConcentrations}{vector containing the names of the concentrations corresponding to the decreasing concentrations}
 
 \item{subjectName}{name of the column containing the subject information}
 
@@ -34,6 +34,14 @@ getThreshold(
 \item{resName}{name of the column containing the result "OK" or "KO" for the test.}
 
 \item{rata}{data.frame containing columns named as productName, subjectName and 'Score' containing a score attributed to the test}
+
+\item{decreasingNumConcentrations}{vector containing the numerical concentrations (logged or not)}
+
+\item{minConc}{a number indicating the minimal concentration (not tested, but used for threshold calculations)}
+
+\item{maxConc}{a number indicating the maximal concentration (not tested, but used for threshold calculations)}
+
+\item{scoreName}{name of the column containing the intensities}
 }
 \description{
 getThreshold returns the observed sensitivity thresholds of the subjects (=0 if the subject found the right sample for all concentrations, 1 if he/she found the right sample for all concentrations but the lightest one, etc.

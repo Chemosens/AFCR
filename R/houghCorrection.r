@@ -1,6 +1,9 @@
-#' @param triangularMatrix
+#' @title houghCorection
+#'@description returns a Hough-corrected matrix from triangular matrix 
+#' @param triangularMatrix a matrix containing in row the subjects, in line the results for each concentration (decreasing). The score is 1 if success, 0 if failure
 #' @param p_chance probability to give the good answer by chance
 #' @param numericConcentrations increasing numericConcentrations
+#' @importFrom stats rbinom
 #' @export
 houghCorrection=function(triangularMatrix,p_chance=1/3,numericConcentrations=NULL)
 {
@@ -22,15 +25,15 @@ houghCorrection=function(triangularMatrix,p_chance=1/3,numericConcentrations=NUL
             {
               if(any(triangularMatrix[i,(j+1):J]==0))
               {
-                triangularMatrix[i,j]= rbinom(size=1,n=1,p=p_disc1[j])
+                triangularMatrix[i,j]= rbinom(size=1,n=1,prob=p_disc1[j])
               }
               if(all(triangularMatrix[i,(j+1):J]==1))
               {
-                triangularMatrix[i,j]= rbinom(size=1,n=1,p=p_disc1[j]) 
+                triangularMatrix[i,j]= rbinom(size=1,n=1,prob=p_disc1[j]) 
                 
                 if(j<J-1)
                 {
-                  triangularMatrix[i,j+1]= rbinom(size=1,n=1,p=p_disc2[j]) 
+                  triangularMatrix[i,j+1]= rbinom(size=1,n=1,prob=p_disc2[j]) 
                 }
                 continue=FALSE
               }

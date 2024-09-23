@@ -1,11 +1,15 @@
-#' @param resIntensity
+#' @title plotIntensityThresholdBySubject
+#'@description returns a plot with the intensity in ordinate and concentration in abscissa. Segments linking the consecutive concentrations are coloured according to their specificity.
+#' @param resIntensity result of getIntensityThreshold
 #' @param subject name of the subject to be plotted
 #' @param displayAFC should the result of AFC be displayed. 
+#' @param revertX if TRUE the x-axis is reverted
 #' @export
-#' @importFrom ggplot2 scale_color_manual 
+#' @importFrom ggplot2 scale_color_manual geom_segment geom_vline
 plotIntensityThresholdBySubject=function(resIntensity,subject,
                                          displayAFC=FALSE,revertX=FALSE)
 {
+  x1=x0=y1=y0=sig=NULL
   decreasingNumConcentrations=resIntensity$decreasingNumConcentrations
   decreasingConcentrations=resIntensity$decreasingConcentrations
   scoreName=resIntensity$scoreName

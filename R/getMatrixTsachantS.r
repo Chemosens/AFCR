@@ -1,3 +1,4 @@
+#'@title getMatrixTsachantS
 #' @param p probability to fail an AFC test
 #' @param K number of successive AFC tests
 #'@param eps 0

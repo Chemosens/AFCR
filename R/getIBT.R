@@ -1,3 +1,6 @@
+#' @inheritParams getIntensityThreshold
+#' @title getIBT
+#' @description A threshold is calculated as the start of the highest slope (cumulative while no negative slope)
 #' @export
 getIBT=function(intensityData,subjectName="Panéliste",scoreName="Score",productName="Produit",decreasingConcentrations=NULL,decreasingNumConcentrations=NULL, minConc=NULL,maxConc=NULL)
 {
@@ -57,5 +60,6 @@ getIBT=function(intensityData,subjectName="Panéliste",scoreName="Score",product
       threshold[subject]=thresholdIndex
     }
   }
-  return(threshold)
+  res=list(threshold=threshold,data=intensityData,decreasingConcentrations=decreasingConcentrations, decreasingNumConcentrations=decreasingNumConcentrations,minConc=minConc,maxConc=maxConc,subjectName=subjectName,scoreName=scoreName,productName=productName)
+
 }

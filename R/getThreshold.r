@@ -4,8 +4,11 @@
 #' @param resName name of the column containing the result "OK" or "KO" for the test.
 #' @param res result of keepLastOccurrence (or dataframe)
 #' @param rata data.frame containing columns named as productName, subjectName and 'Score' containing a score attributed to the test
+#' @param minConc a number indicating the minimal concentration (not tested, but used for threshold calculations)
+#' @param maxConc  a number indicating the maximal concentration (not tested, but used for threshold calculations)
+#' @param decreasingNumConcentrations vector containing the numerical concentrations (logged or not)
 #' @inheritParams keepLastOccurence
-#' @param decreasingConcentrations vector contaning the products corresponding to the decreasing concentrations
+#' @param decreasingConcentrations vector containing the names of the concentrations corresponding to the decreasing concentrations
 #' @export
 #' @examples
 #' data(triangular)
@@ -116,35 +119,15 @@ getThreshold=function(res,decreasingConcentrations=c("C9","C8","C7","C6","C5","C
     thresholdNum=rep(NA,length(threshold))
     for(i in 1:length(observedThreshold))
     {
-      #print(observedThreshold[i])
       thresholdNum[i]=thresholdToConcentration(threshold[i],decreasingNumConcentrations=decreasingNumConcentrations,minConc=minConc,maxConc=maxConc)
-      
-      # conc=decreasingNumConcentrations[observedThreshold[i]]
-      # if(observedThreshold[i]==0)
-      # {
-      #   thresholdNum[i]=decreasingNumConcentrations[1]
-      # }
-      # else
-      # {
-      #   if(observedThreshold[i]==length(decreasingConcentrations))
-      #   {toAdd=conc}
-      #   else{toAdd=decreasingNumConcentrations[observedThreshold[i]+1]}
-      #   thresholdNum[i]=(1/2)*(conc + toAdd)
-      #   # if(!is.null(rata))
-      #   # {
-      #   #   relatedScores[i]=1/2()
-      #   # }
-      # 
-      # }
-
     }
     dfres=cbind(dfres,thresholdNum=thresholdNum)
   }
 
   if(!is.null(rata)){
-    namesCol=c(subjectName,productName,timeName,"nClicks",resName,"threshold","score")
+    namesCol=c(subjectName,productName,timeName,"nClicks","threshold","score")
   }else{
-      namesCol=c(subjectName,productName,timeName,"nClicks",resName,"threshold")
+      namesCol=c(subjectName,productName,timeName,"nClicks","threshold")
   }
   if(!is.null(decreasingNumConcentrations))
   {

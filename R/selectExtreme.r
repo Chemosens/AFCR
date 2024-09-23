@@ -1,14 +1,16 @@
-
+#'' @title selectExtreme
+#' #@description returns the extremes of a distribution
 #' @param N number of individuals in the experiment
 #' @param n number of individuals required in the extremal group
 #' @inheritParams getMatrixTsachantS
 #' @param lower TRUE for the group with the lower value of T (threhsold), FALSE for the group with the highest threshold
+#' @param probaS distribution of probability
 #' @export
 #' @return nG
-#' @importFrom ggplot2 geom_col
+#' @importFrom ggplot2 geom_col geom_vline
 #' @importFrom forcats fct_relevel
 #' @description This function an extreme group from a given experimentation : given p, probaS, K (number of samples) and N (number of tests) it returns a group containing n subjects (with the lowest -when lower = TRUE or the highest values).
-#' @importFrom graphics barplot
+#' @importFrom graphics barplot 
 selectExtreme=function(N=200,n=40,lower=TRUE,p,probaS,K)
 {
   thr=NULL

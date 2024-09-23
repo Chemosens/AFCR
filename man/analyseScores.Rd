@@ -6,6 +6,7 @@
 \usage{
 analyseScores(
   rata,
+  subject = NULL,
   decreasingConcentrations = c("C9", "C8", "C7", "C6", "C5", "C4", "C3", "C2", "C1"),
   subjectName = "Panéliste",
   productName = "Produit",
@@ -15,18 +16,25 @@ analyseScores(
   scoreName = "Score",
   triangular = NULL,
   displayAFC = FALSE,
+  displayBET = TRUE,
+  representationAFC = "label",
+  displayIBT = TRUE,
   decreasingNumConcentrations = NULL,
   regression = FALSE,
   revertX = FALSE,
   logY = FALSE,
   minConc = 0,
-  maxConc = NULL
+  maxConc = NULL,
+  y_add = NULL,
+  colors_values = NULL
 )
 }
 \arguments{
 \item{rata}{data.frame containing columns named as productName, subjectName and 'Score' containing a score attributed to the test}
 
-\item{decreasingConcentrations}{vector contaning the products corresponding to the decreasing concentrations}
+\item{subject}{if NULL (default), a graph of all subjects is produced. It could also contain the name of only one ore more subjects.}
+
+\item{decreasingConcentrations}{vector containing the names of the concentrations corresponding to the decreasing concentrations}
 
 \item{subjectName}{name of the column containing the subject information}
 
@@ -44,13 +52,32 @@ analyseScores(
 
 \item{displayAFC}{if TRUE, the AFC result is displayed (a point when the AFC test was succeeded, a cross if it was failed )}
 
+\item{displayBET}{if TRUE the BET threshold is calculated and represented as a x}
+
+\item{representationAFC}{'label' or 'point'. If label, '0' or '1' is displayed. Else, 0 corresponds to a x and 1 to a o}
+
+\item{displayIBT}{if TRUE the IBT threshold is calculated and represented as a +}
+
 \item{decreasingNumConcentrations}{numerical values of the used concentrations}
 
 \item{regression}{if TRUE, adds a linear regression and its statistical indicators (R2, RMSE) to the graph}
 
 \item{revertX}{if TRUE, allows the x-axis the to be inverted}
+
+\item{logY}{FALSE by default. If true the intensities are logged (base = )}
+
+\item{minConc}{a number indicating the minimal concentration (not tested, but used for threshold calculations)}
+
+\item{maxConc}{a number indicating the maximal concentration (not tested, but used for threshold calculations)}
+
+\item{y_add}{when representationAFC=='label', the label is displayed on the ordinate of the intensity + y_add}
+
+\item{colors_values}{a vector containing the colors to be used. Default to "black" when length(subject)==1}
 }
 \description{
+This function returns graphical results
+}
+\details{
 Returns the plots with the scores according to their concentrations
 }
 \examples{

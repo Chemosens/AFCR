@@ -1,5 +1,6 @@
+#' @inheritParams getIntensityThreshold 
 #' @export
-getJumpThreshold=function(intensityData,subjectName="Panéliste",scoreName="Score",productName="Produit",decreasingConcentrations=NULL,decreasingNumConcentrations=NULL, minConc=NULL,maxConc=NULL,tolerance=0)
+getJumpThreshold=function(intensityData,subjectName="Panéliste",scoreName="Score",productName="Produit",decreasingConcentrations=NULL,decreasingNumConcentrations=NULL, minConc=NULL,maxConc=NULL)
 {
   subjects=levels(factor(intensityData[,subjectName]))
   J=length(decreasingConcentrations)
@@ -24,5 +25,6 @@ getJumpThreshold=function(intensityData,subjectName="Panéliste",scoreName="Scor
       threshold[subject]=thresholdIndex
     }
   }
-  return(threshold)
+  res=list(threshold=threshold,data=intensityData,decreasingConcentrations=decreasingConcentrations, decreasingNumConcentrations=decreasingNumConcentrations,minConc=minConc,maxConc=maxConc,subjectName=subjectName,scoreName=scoreName,productName=productName)
+  
 }

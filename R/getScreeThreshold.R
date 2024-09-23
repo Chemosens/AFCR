@@ -1,3 +1,6 @@
+#' @title getScreeThreshold
+#' @description The threshold is calculated here as the maximale differences between two consecutive slopes
+#' @inheritParams getIntensityThreshold
 #' @export
 getScreeThreshold=function(intensityData,subjectName="Panéliste",scoreName="Score",productName="Produit",decreasingConcentrations=NULL,decreasingNumConcentrations=NULL, minConc=NULL,maxConc=NULL)
 {
@@ -27,5 +30,6 @@ getScreeThreshold=function(intensityData,subjectName="Panéliste",scoreName="Sco
     }
   }
   
-  return(threshold)
+  res=list(threshold=threshold,data=intensityData,decreasingConcentrations=decreasingConcentrations, decreasingNumConcentrations=decreasingNumConcentrations,minConc=minConc,maxConc=maxConc,subjectName=subjectName,scoreName=scoreName,productName=productName)
+  return(res)
 }

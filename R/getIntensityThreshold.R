@@ -1,3 +1,9 @@
+#' @inheritParams getThreshold
+#' @description This function calculates an intensity threshold based on the first moment when the scores are only increasing in the data (in increasing concentrations). An increasing is defined up to a tolerance. A tolerance of 0 returns the moment when the is (not strictly increasing), a tolerance of 1 allows a small decreasing of 1.
+#' @param tol O by default. If scaleBySubject=TRUE, the tolerance is tol. If scaleBySubject=TRUE, the tolerance is tol*(max(score_of_this_subject)-min(score(score_of_this_subject))
+#' @param intensityData data containing columns for subjectName (containing the name of the subject),scoreName (containing the intensity) and productName (containing the name of the concentration)
+#' @param scaleBySubject if TRUE the tolerance is calculated by subject (as a proportion of the distance max-min of the scale)
+#' @title getIntensityThreshold
 #' @export
 getIntensityThreshold=function(intensityData,subjectName="Panéliste",scoreName="Score",productName="Produit",decreasingConcentrations=NULL,decreasingNumConcentrations=NULL, minConc=NULL,maxConc=NULL,tol=0,scaleBySubject=TRUE)
 {

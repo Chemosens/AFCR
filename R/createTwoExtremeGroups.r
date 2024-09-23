@@ -1,4 +1,4 @@
-#'@importFrom stats t.test
+#'@importFrom stats t.test wilcox.test
 createTwoExtremeGroups=function(N=200,n=40,p=2/3,probaS=rep(1/7,7),K=6,concentrations,test="wilcox")
 {
   hyper=selectExtreme(N=N,n=n,p=p,probaS=probaS,K=K)
