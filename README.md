@@ -3,6 +3,7 @@
 ## Description
 This package has two objectives: (i) to correct successive AFC tests (Best Estimation Threshold experiments) using probabilistic approach (ii) to deal with intensities data
 
+<strong>Important remark: the package presented in Martin et al. (2025) was initially included in this package. It is now part of the BETR package: https://github.com/Chemosens/BETR/</strong>
 ## Installation
 You can install the development version from GitHub using:
 
