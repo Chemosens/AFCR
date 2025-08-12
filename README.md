@@ -1,7 +1,7 @@
 # AFCR
 
 ## Description
-This package has two objectives: (i) to correct successive AFC tests (Best Estimation Threshold experiments) using probabilistic approach (ii) to deal with intensities data
+The objective of this package is to correct successive AFC tests (Best Estimation Threshold experiments) using probabilistic approach and simulations.
 
 <strong>Important remark: the package presented in Martin et al. (2025) was initially included in this package. It is now part of the BETR package: https://github.com/Chemosens/BETR/</strong>
 ## Installation
@@ -10,35 +10,30 @@ You can install the development version from GitHub using:
 ```R
 devtools::install_github("https://github.com/ChemoSens/AFCR")
 library(AFCR)
-```
-# Example of usage
 
-## Getting BET results
+```
+## Example of usage
+Here, we assume that 6 successive 3-AFC tests are conducted. The true threshold distribution can be stored in an vector S. 
 ```R
-data(triangular)
-head(triangular)
-df=keepLastOccurence(triangular,subjectName="Paneliste")
-res_bet=getThreshold(res=df,decreasingConcentrations=c("C9","C8","C7","C6","C5","C4","C3","C2","C1"),
-                     subjectName="Paneliste")
-## Using real concentrations
-bet1=getThreshold(res=df,decreasingConcentrations=c("C9","C8","C7","C6","C5","C4","C3","C2","C1"),
-                  decreasingNumConcentrations=9:1,maxConc=10, minConc=0,subjectName="Paneliste")
+pS=rep(0,7);pS[4]=1
 ```
-## Getting IBT results
+Then, assuming this true distribution, the distribution of the observed BET is given by the following commands. 
 ```R
-data(rata)
-res_ibt=getIBT(intensityData=rata,subjectName="Paneliste",decreasingConcentrations=c("C9","C8","C7","C6","C5","C4","C3","C2","C1"))$threshold
-# Using real concentrations
-res_ibt=getIBT(intensityData=rata,subjectName="Paneliste",
-               decreasingConcentrations=c("C9","C8","C7","C6","C5","C4","C3","C2","C1"),
-               decreasingNumConcentrations=9:1,maxConc=10,minConc=0)$threshold
+matTassumingS=AFCR:::getMatrixTsachantS(2/3,6)
+pT_estimated=pS%*%matTassumingS
 ```
-
-## Graphical results
+The following commands allows graphs to be plotted for comparing the true threshold distribution and the related observed BET
 ```R
-res_graph=analyseScores(rata,decreasingConcentrations=c("C9","C8","C7","C6","C5","C4","C3","C2","C1"), 
-        subjectName="Paneliste",productName="Produit",scoreName="Score",triangular=triangular,displayAFC=TRUE,representationAFC = "label",subject="S001",decreasingNumConcentrations=9:1,maxConc=10,minConc=0)
+library(ggplot2)
+library(gridExtra)
+pT=as.vector(pT_estimated)
+dfT=data.frame(t=pT,names=paste0("]c",0:6,";c",1:7,"]"))
+dfS=data.frame(t=pS,names=paste0("]c",0:6,";c",1:7,"]"))
+dfT[,"t_lab"]=round(dfT[,"t"],digits=2)
+dfS[,"t_lab"]=round(dfS[,"t"],digits=2)
+real=ggplot(dfS,aes(x=names,y=t))+geom_col()+ylim(0,1)+ggtitle("a. Distribution of the true threshold")+theme_bw()+ylab("Probability")+xlab("Threshold")+ geom_text(aes(label = t_lab), vjust = -0.5)
+obs=ggplot(dfT,aes(x=names,y=t))+geom_col()+ylim(0,1)+ggtitle("b. Distribution of BET threshold")+theme_bw()+xlab("Threshold")+ylab("Probability")+ geom_text(aes(label = t_lab), vjust = -0.5)
+grid.arrange(real,obs,nrow=1)
 ```
 
-
-
+Other examples are available in https://github.com/ChemoSens/ExternalCode/AFCR_Results/script_paper.r
